@@ -2,13 +2,17 @@ import { useState, useEffect } from 'react'
 import Note from './components/Note'
 import Notification from './components/Notification'
 import Footer from './components/Footer'
+import Header from './components/Header'
 import noteService from './services/notes'
+import AddForm from './components/AddForm'
 
 const App = () => {
   const [notes, setNotes] = useState([])
   const [newNote, setNewNote] = useState('')
   const [showAll, setShowAll] = useState(true)
   const [errorMessage, setErrorMessage] = useState(null)
+  const [password, setPassword] = useState('')
+  const [username, setUsername] = useState('')
 
   useEffect(() => {
     noteService
@@ -17,21 +21,26 @@ const App = () => {
         setNotes(initialNotes)
       })
   }, [])
-
-  const addNote = (event) => {
+  //login function
+  const handleLogin =(event)=>{
     event.preventDefault()
-    const noteObject = {
-      content: newNote,
-      important: Math.random() > 0.5,
-    }
-  
-    noteService
-      .create(noteObject)
-        .then(returnedNote => {
-        setNotes(notes.concat(returnedNote))
-        setNewNote('')
-      })
+    console.log("we are handling login")
   }
+
+  // const addNote = (event) => {
+  //   event.preventDefault()
+  //   const noteObject = {
+  //     content: newNote,
+  //     important: Math.random() > 0.5,
+  //   }
+  
+  //   noteService
+  //     .create(noteObject)
+  //       .then(returnedNote => {
+  //       setNotes(notes.concat(returnedNote))
+  //       setNewNote('')
+  //     })
+  // }
 
   const toggleImportanceOf = id => {
     const note = notes.find(n => n.id === id)
@@ -56,23 +65,21 @@ const App = () => {
       })
   }
 
-  const handleNoteChange = (event) => {
-    setNewNote(event.target.value)
-  }
+  // const handleNoteChange = (event) => {
+  //   setNewNote(event.target.value)
+  // }
 
   const notesToShow = showAll
     ? notes
     : notes.filter(note => note.important)
 
   return (
-    <div>
-      <h1>Notes</h1>
+    <div className='mainApp'>
+      <Header showAll={showAll} setShowAll={setShowAll} />
       <Notification message={errorMessage} />
-      <div>
-        <button onClick={() => setShowAll(!showAll)}>
-          show {showAll ? 'important' : 'all' }
-        </button>
-      </div>      
+      <form onSubmit={handleLogin}>
+
+      </form>
       <ul>
         {notesToShow.map(note => 
           <Note
@@ -82,14 +89,9 @@ const App = () => {
           />
         )}
       </ul>
-      <form onSubmit={addNote}>
-      <input
-          value={newNote}
-          onChange={handleNoteChange}
-        />
-        <button type="submit">save</button>
-      </form>
-      <Footer />
+      <AddForm newNote={newNote} setNewNote={setNewNote} setNotes={setNotes} />
+
+      
     </div>
   )
 }

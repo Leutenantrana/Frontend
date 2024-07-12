@@ -1,0 +1,15 @@
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-align: center;
+}
+
+.showButton {
+    margin-top: 15px;
+}
+
+.showButton button {
+    background-color: aliceblue;
+    color: black;
+}
