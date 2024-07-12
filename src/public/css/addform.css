@@ -1,4 +1,4 @@
-form {
+.newNoteForm {
     background-color: aliceblue;
     display: flex;
     justify-content: space-between;
@@ -7,14 +7,14 @@ form {
     border-radius: 5px;
 }
 
-form button {
+.newNoteForm button {
     background-color: transparent;
     color: black;
     font-size: 25px;
     padding: 0px;
 }
 
-input {
+.newNoteForm input {
     width: 300px;
     color: rgb(27, 26, 26);
     background-color: transparent;

@@ -1,9 +1,9 @@
 import React from 'react'
-import noteServices from '../services'
+import noteService from '../services/notes.js'
 import '../public/css/addform.css'
 
 const AddForm = (props) => {
-    const {newNote , setNewNote, setNotes} = props
+    const {newNote , setNewNote,notes, setNotes} = props
     // add note method
     const addNote = (event) => {
         event.preventDefault()
@@ -27,7 +27,7 @@ const AddForm = (props) => {
   return (
     <div>
         <h1>Add new Note</h1>
-      <form onSubmit={addNote}>
+      <form className='newNoteForm' onSubmit={addNote}>
       <input
           value={newNote}
           onChange={handleNoteChange}
