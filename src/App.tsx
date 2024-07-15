@@ -1,20 +1,20 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Note from './components/Note'
 import Notification from './components/Notification'
 import Footer from './components/Footer'
 import Header from './components/Header'
 import noteService from './services/notes'
 import loginService from './services/login'
-import AddForm from './components/AddForm'
+import NoteForm from './components/NoteForm'
+import Loginform from './components/Loginform'
+import Togglable from './components/Togglable'
 
 const App = () => {
   const [notes, setNotes] = useState([])
-  const [newNote, setNewNote] = useState('')
   const [showAll, setShowAll] = useState(true)
   const [errorMessage, setErrorMessage] = useState(null)
-  const [password, setPassword] = useState('')
-  const [username, setUsername] = useState('')
   const [user, setUser] = useState(null)
+  const noteFormRef = useRef()
 
   useEffect(() => {
     noteService
@@ -31,51 +31,22 @@ const App = () => {
       setUser(user)
       noteService.setToken(user.token)
     }
-  })
+  },[])
   //login function
-  const handleLogin = async(event)=>{
-    event.preventDefault()
-    try{
-       const user = await loginService.login({
-        username, password
-       })
-       window.localStorage.setItem(
-        'loggedNoteappUser', JSON.stringify(user)
-       )
-       console.log("this is user in handleLogin " ,user)
-       
-       noteService.setToken(user.token)
-       setUser(user)
-       setPassword('')
-       setUsername('')
-    }catch(exception){
-      setErrorMessage('Wrong Credentials')
-      setTimeout(()=>{
-        setErrorMessage(null)
-      },5000)
 
-    }
-    console.log(user)
-
+  const handleLogout=()=>{
+    window.localStorage.clear()
+    setUser(null)
   }
-  const addNote = (event) => {
-    event.preventDefault()
-    const noteObject = {
-      content: newNote,
-      important: Math.random() > 0.5,
-    }
-  
+  const addNote = (noteObject) => {
+    noteFormRef.current.toggleVisibility()
     noteService
       .create(noteObject)
         .then(returnedNote => {
         setNotes(notes.concat(returnedNote))
-        setNewNote('')
       })
-}
+  }
 
-const handleNoteChange = (event) => {
-    setNewNote(event.target.value)
-} 
  const toggleImportanceOf = id => {
     const note = notes.find(n => n.id === id)
     console.log("note before change is " , note)
@@ -96,56 +67,72 @@ const handleNoteChange = (event) => {
         }, 5000)
       })
   } 
+  const deleteNote =async(id) =>{
+    try{
+      await noteService
+        .deleteNote(id)
+      
+    }catch(error){
+       console.log(error)
+    }  
+    setNotes(notes.filter(note => note.id !== id ))
+  }
 
 
   const notesToShow = showAll
     ? notes
     : notes.filter(note => note.important)
 
-  const loginForm = ()=>(
-    <form onSubmit={handleLogin}>
+  const loginForm =()=>{
+    return(
+    <Togglable buttonLabel="login" >
+      <Loginform 
+        errorMessage={errorMessage}
+        setErrorMessage={setErrorMessage}
+        user={user}
+        setUser={setUser}
+        />
+    </Togglable>
+    )
+  }
+  const noteform =()=>{
+    return(
+      <Togglable buttonLabel="new note" ref={noteFormRef}>
+        <NoteForm
+          createNote={addNote}
+        />
+      </Togglable>
+    )
+  }
+  console.log(user)
+
+  const userLoggedin = ()=> {
+    return(
       <div>
-        username
-          <input name='Username' value={username} onChange={({target})=>setUsername(target.value)} />
-      </div>
-      <div>
-        password
-        <input name='Password' value={password} onChange={({target})=>setPassword(target.value)} />
+        <div className='userDetailBox'>
+          <p className='userDetails'>{user.name} logged in</p>
+          <button onClick={handleLogout}>logout</button>
+        </div>
+        {noteform()}
 
       </div>
-
-      <button type='submit'>Save</button>
-
-     </form>
-  )  
-  const noteform = ()=> (
-    <div>
-        <h1>Add new Note</h1>
-        <form className='newNoteForm' onSubmit={addNote}>
-        <input
-            value={newNote}
-            onChange={handleNoteChange}
-          />
-        <button type="submit">save</button>
-      </form>
-    </div>
-  )
-  
+    )
+  }
 
   return (
     <div className='mainApp'>
       <Header showAll={showAll} setShowAll={setShowAll} />
       <Notification message={errorMessage} />
-      {user === null? 
-        loginForm()
-        :noteform()}
+       {!user && loginForm()}
+       {user && userLoggedin()}
 
  
-      <ul>
+      <ul className='allNotes'>
         {notesToShow.map(note => 
           <Note
             key={note.id}
             note={note}
+            deleteNote = {()=>deleteNote(note.id)}
             toggleImportance={() => toggleImportanceOf(note.id)}
           />
         )}

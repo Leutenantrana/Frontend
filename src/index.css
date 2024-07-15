@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Playwrite+BE+VLG:wght@100..400&display=swap');
 :root {
     font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
     line-height: 1.5;
@@ -40,15 +41,19 @@ h1 {
 }
 
 button {
-    border-radius: 8px;
+    border-radius: 3px;
     border: 1px solid transparent;
-    padding: 0.6em 1.2em;
+    padding: 0.1em 0.7em;
     font-size: 1em;
     font-weight: 500;
     font-family: inherit;
-    background-color: #1a1a1a;
     cursor: pointer;
     transition: border-color 0.25s;
+    background-color: #ffffff;
+    color: #1a1a1a;
+    margin-bottom: 10px;
+    transition: all 0.5s;
+    border: 1px solid black;
 }
 
 button:hover {
@@ -71,4 +76,196 @@ button:focus-visible {
     button {
         background-color: #f9f9f9;
     }
+}
+
+.loginFormMainDiv {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
+    background-color: #ffffff;
+    border-radius: 5px;
+}
+
+.loginForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffffff;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 2px;
+    color: #1a1a1a;
+    font-size: 20px;
+    padding: 0px;
+    width: 330px;
+    margin: 25px;
+    height: 225px;
+}
+
+.noteForm {
+    height: 120px;
+    margin: 0px;
+    margin-bottom: 20px;
+    padding: 0px;
+    padding-bottom: 10px;
+    width: 400px;
+}
+
+.loginForm div {
+    display: flex;
+    justify-content: space-between;
+    background-color: #ffffff;
+    width: 300px;
+    border-radius: 2px;
+    padding: 5px;
+    margin: 0px;
+}
+
+.loginForm button {
+    margin-top: 10px;
+    margin-left: 220px;
+    background-color: #ffffff;
+    color: #1a1a1a;
+    margin-bottom: 10px;
+    transition: all 0.5s;
+    border: 1px solid black;
+}
+
+.loginForm button:hover {
+    transform: scale(1.01);
+}
+
+.loginForm button:active {
+    transform: scale(0.7);
+    box-shadow: 5px 5px 15px 5px #1854fa;
+}
+
+.loginForm input {
+    background-color: #ffffff;
+    border: 1px solid black;
+}
+
+.noteForm input {
+    height: 30px;
+    width: 250px;
+}
+
+.loginForm input:hover {
+    background-color: #ffffff;
+    color: #1a1a1a;
+    border: 1px solid blue;
+}
+
+.loginForm input.typing {
+    background-color: #ffffff;
+    color: #1a1a1a;
+}
+
+
+/* Notification box */
+
+.error {
+    background-color: #d2f895;
+    border: 1px solid #9ae620;
+    border-radius: 2px;
+    color: #1a1a1a;
+    height: 50px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.1s;
+}
+
+.note {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.userDetailBox {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px;
+    margin: 0px;
+}
+
+.userDetailBox button {
+    margin-top: 10px;
+    margin-left: 220px;
+    background-color: #ffffff;
+    color: #1a1a1a;
+    margin-bottom: 10px;
+    transition: all 0.5s;
+    border: 1px solid black;
+}
+
+.userDetailBox p {
+    font-family: "Playwrite BE VLG", cursive;
+    font-size: 30px;
+    padding: 0px;
+}
+
+.noteForm h2 {
+    padding: 2px;
+    margin: 5px;
+}
+
+.newNoteForm {
+    display: flex;
+    justify-content: space-between;
+    width: 85%;
+}
+
+.noteForm button {
+    background-color: #ffffff;
+    color: #1a1a1a;
+    margin-bottom: 10px;
+    transition: all 0.5s;
+    border: 1px solid black;
+}
+
+
+/* notes */
+
+.allNotes {
+    background-color: #ffffff;
+    color: #1a1a1a;
+    padding: 10px;
+    border-radius: 2px;
+    font-size: 18px;
+}
+
+.allNotes li {
+    border-bottom: 1px solid black;
+    padding-bottom: 2px;
+    display: flex;
+    align-items: center;
+    font-family: "Playwrite BE VLG", cursive;
+    padding: 10px;
+}
+
+.noteBtns {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin: 0px;
+}
+
+.noteBtns button {
+    margin-bottom: 0px;
+    border: none;
+    background-color: #ffffff;
+    margin-left: 5px;
+    transition: all 0.2s;
+    font-family: sans-serif;
+    border: 1px solid black;
+}
+
+.noteBtns button:hover {
+    transform: scale(1.07);
 }
